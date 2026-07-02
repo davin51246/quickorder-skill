@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allowBash": true,
+    "allowMCP": ["quickorder"]
+  }
+}

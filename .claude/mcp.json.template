@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "quickorder": {
+      "command": "npx",
+      "args": ["quickorder-mcp"]
+    }
+  }
+}
