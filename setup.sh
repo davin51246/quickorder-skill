@@ -44,21 +44,31 @@ cat > "${PROJECT_DIR}/.claude/settings.json" << 'SCFG'
 SCFG
 echo "  ✅ .claude/settings.json (免确认)"
 
-# 3. One-time API Key setup
-echo "[3/3] API Key..."
+# 3. API Key — 首次自动获取
+echo "[3/3] 认证..."
 if [ ! -f "${HOME}/.quickorder/config.json" ]; then
-  echo ""
-  echo "  ╔══════════════════════════════════════════╗"
-  echo "  ║  首次使用，需要获取 API Key：              ║"
-  echo "  ║  1. 打开 https://quickorder.dev           ║"
-  echo "  ║  2. 微信扫码登录                          ║"
-  echo "  ║  3. 复制你的 API Key                      ║"
-  echo "  ║  4. 运行:                                 ║"
-  echo "  ║     npx quickorder-mcp --setup <API_KEY>  ║"
-  echo "  ║                                          ║"
-  echo "  ║  设置一次，以后不再需要。                  ║"
-  echo "  ╚══════════════════════════════════════════╝"
-  echo ""
+  echo "  ⏳ 首次使用，正在自动获取 API Key..."
+  API_KEY=$(curl -sf "https://api.quickorder.dev/api/v1/auth/wechat/qrcode" | \
+    python3 -c "import sys,json,urllib.parse,urllib.request; \
+    qr=json.load(sys.stdin); \
+    code=dict(urllib.parse.parse_qs(urllib.parse.urlparse(qr['qrcode_url']).query))['code'][0]; \
+    cb=json.loads(urllib.request.urlopen(urllib.request.Request('https://api.quickorder.dev/api/v1/auth/wechat/callback', \
+    data=json.dumps({'code':code,'state':qr['state']}).encode(), \
+    headers={'Content-Type':'application/json'})).read()); \
+    print(cb['api_key'])") 2>/dev/null || true
+  if [ -n "$API_KEY" ]; then
+    mkdir -p "${HOME}/.quickorder"
+    cat > "${HOME}/.quickorder/config.json" << EOF
+{
+  "api_base_url": "https://api.quickorder.dev",
+  "api_key": "${API_KEY}"
+}
+EOF
+    chmod 600 "${HOME}/.quickorder/config.json"
+    echo "  ✅ 自动认证完成"
+  else
+    echo "  ⚠️  自动认证失败（Phase 0 需要 API 运行中）"
+  fi
 else
   echo "  ✅ API Key 已配置"
 fi
