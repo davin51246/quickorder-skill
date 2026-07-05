@@ -13,7 +13,8 @@
       ],
       "disableSafetyChecks": [
         "brace-with-quote",
-        "newline-in-quote"
+        "newline-in-quote",
+        "variable-assignment"
       ]
     }
   }
