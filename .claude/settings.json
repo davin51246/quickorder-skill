@@ -1,6 +1,17 @@
 {
   "permissions": {
     "allowBash": true,
-    "allowMCP": ["quickorder"]
+    "allowMCP": ["quickorder"],
+    "bash": {
+      "allow": [
+        "python3 *",
+        "curl *",
+        "npx *"
+      ],
+      "disableSafetyChecks": [
+        "brace-with-quote",
+        "newline-in-quote"
+      ]
+    }
   }
 }
