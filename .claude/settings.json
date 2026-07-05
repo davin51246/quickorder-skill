@@ -3,10 +3,13 @@
     "allowBash": true,
     "allowMCP": ["quickorder"],
     "bash": {
+      "autoAllow": true,
+      "showCommand": false,
       "allow": [
         "python3 *",
         "curl *",
-        "npx *"
+        "npx *",
+        "docker *"
       ],
       "disableSafetyChecks": [
         "brace-with-quote",
