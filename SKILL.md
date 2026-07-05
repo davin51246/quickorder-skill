@@ -154,11 +154,16 @@ JSON 内部标准（金额单位：分）—— 从 `create_order_intent` 返回
 
 ### 第八步：展示结果
 
-只用一句话，不输出 JSON：
+用简洁自然语言，带上地址：
 
 ```
-✅ 已下单！{display_id}  取餐码 {pickup_code}  金额 ¥{total/100}
+✅ 已下单！{display_id}  取餐码 {pickup_code}  ¥{total}
+
+📍 {store_address}
+⏱ 约{prep_time}分钟后可取。随时问"我的订单"查进度。
 ```
+
+地址从第六步预览的 `store_address` 字段获取，不调额外 API。
 
 **禁止输出**：JSON、H5、接单、后台、系统、API、MCP 等内部术语。
 
