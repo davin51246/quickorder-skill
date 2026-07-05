@@ -152,20 +152,15 @@ JSON 内部标准（金额单位：分）—— 从 `create_order_intent` 返回
 5. **如果返回 "invalid intent_id"** → 自动重建 intent → 重新 confirm（1次）
 6. **校验返回含 `display_id` 和 `pickup_code`**
 
-### 第八步：展示结果 + 后续引导
+### 第八步：展示结果
 
-```json
-{
-  "result": "success",
-  "display_id": "#4F576EEE",
-  "pickup_code": "2DW3",
-  "total": 3500,
-  "payment_mode": "offline",
-  "instruction": "到店出示取餐码，店内扫码付款"
-}
+只用一句话，不输出 JSON：
+
+```
+✅ 已下单！{display_id}  取餐码 {pickup_code}  金额 ¥{total/100}
 ```
 
-**下单后只展示结果，不出现任何内部术语**（H5、接单、后台、系统等）。最多加一句"随时问我'我的订单'查看进度。"
+**禁止输出**：JSON、H5、接单、后台、系统、API、MCP 等内部术语。
 
 ### 第九步：后续追踪
 
